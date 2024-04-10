@@ -27,6 +27,12 @@ public class Livro {
         this.ehFavorito = false;
     }
 
+    public Livro(String Titulo, String autor, String resumo){
+        this.titulo = Titulo;
+        this.autor = autor;
+        this.resumo = resumo;
+    }
+
     public void mudarLido() {
         this.estaLido = !this.estaLido;
     }
@@ -75,18 +81,8 @@ public class Livro {
 
     @Override
     public String toString() {
-        return "Livro{" +
-                "estaLido=" + estaLido +
-                ", estaSalvo=" + estaSalvo +
-                ", titulo='" + titulo + '\'' +
-                ", autor='" + autor + '\'' +
-                ", sobre='" + sobre + '\'' +
-                ", genero='" + genero + '\'' +
-                ", ehFavorito=" + ehFavorito +
-                ", urlCapa='" + urlCapa + '\'' +
-                ", resumo='" + resumo + '\'' +
-                ", qtdCapitulo=" + qtdCapitulo +
-                ", qtdPagina=" + qtdPagina +
-                '}';
+        return "Titulo: " + this.titulo + "\n"+
+                "Autor: " + this.autor + "\n" +
+                "Resumo: " + this.resumo;
     }
 }
