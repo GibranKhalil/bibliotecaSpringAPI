@@ -10,7 +10,7 @@ public class Estante {
 
     public void adicionarLivro(Livro livro) {
         listaLivros.add(livro);
-        System.out.println("Livro: " + livro.getTitulo() + " adicionado na estante" + getNome());
+        System.out.println("Livro: " + livro.getTitulo() + " adicionado na estante " + getNome());
     }
 
     public void removerLivro(Livro livro) {
@@ -21,6 +21,10 @@ public class Estante {
 
     public String getNome() {
         return nome;
+    }
+
+    public List<Livro> getListaLivros(){
+        return listaLivros;
     }
     public void setNome(String nome) {
         this.nome = nome;
@@ -36,6 +40,10 @@ public class Estante {
         this.nome = nome;
         this.descricao = descricao;
         listaLivros = new ArrayList<>();
+    }
+
+    public boolean estaVazia(){
+        return listaLivros.isEmpty();
     }
 
     public void mostrarLivros(){
