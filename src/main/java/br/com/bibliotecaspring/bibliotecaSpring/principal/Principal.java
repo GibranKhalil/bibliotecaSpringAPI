@@ -18,17 +18,22 @@ public class Principal {
     private final String ENDERECO = "https://www.googleapis.com/books/v1/volumes?q=";
     private final String API_KEY = "AIzaSyAVfXqFmSp0yuY4hbRvqI9S3c8VHv1p71M";
     private List<Estante> estantes = new ArrayList<>();
+    private Estante favoritos = new Estante("Favoritos", "Estante de livros favoritos");
+    private Estante livrosLidos =  new Estante("Livros marcados como lidos",  "Estante de livros lidos");
+    private Estante livrosSalvos = new Estante("Livros salvos", "Estante de livros salvos");
 
     public void executar() {
         var opcao = 0;
-        while (opcao!=6){
+        while (opcao!=8){
             System.out.println("\nDigite a opção que deseja\n" +
                     "(1) Buscar um livro\n" +
                     "(2) Criar uma estante\n" +
                     "(3) Buscar uma estante\n" +
                     "(4) Ver todas as estantes\n" +
                     "(5) Ver livros favoritos\n" +
-                    "(6) Sair\n");
+                    "(6) Ver livros já lidos\n"+
+                    "(7) Ver livros salvos\n" +
+                    "(8) Sair\n");
             opcao = leitura.nextInt();
             leitura.nextLine();
 
@@ -37,6 +42,8 @@ public class Principal {
                     String livro = obterLivroUsuario();
                     List<DadosLivro> livros = buscarLivros(livro);
                     exibirLivros(livros);
+                    Livro livroSelecionado = selecionarLivro(livros);
+                    acaoLivroSelecionado(livroSelecionado);
                     break;
                 case 2:
                     System.out.println("Digite o nome da estante");
@@ -56,21 +63,26 @@ public class Principal {
                     break;
                 case 4:
                     verEstantes();
+                    break;
+                case 5:
+                    favoritos.mostrarLivros();
+                    break;
+                case 6:
+                    livrosLidos.mostrarLivros();
+                    break;
+                case 7:
+                    livrosSalvos.mostrarLivros();
+                    break;
+                case 8:
+                    System.out.println("Até logo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    break;
             }
         }
 
     }
-
-//            while (true) {
-//        String livro = obterLivroUsuario();
-//        List<DadosLivro> livros = buscarLivros(livro);
-//        exibirLivros(livros);
-//        int opcao = selecionarLivro(livros);
-//        leitura.nextLine();
-//        if (opcao == 2) {
-//            break;
-//        }
-//    }
 
     private String obterLivroUsuario() {
         System.out.println("Digite o livro procurado");
@@ -90,21 +102,96 @@ public class Principal {
         }
     }
 
-    private int selecionarLivro(List<DadosLivro> livros) {
+    private Livro selecionarLivro(List<DadosLivro> livros) {
         System.out.println("Selecione um livro para ver mais detalhes:");
         int opcao = leitura.nextInt();
         leitura.nextLine();
         if (opcao < 0 || opcao >= livros.size()) {
             System.out.println("Opção inválida!");
-            return -1;
+            return null;
         }
         Livro livroSelecionado = new Livro(livros.get(opcao).titulo(), livros.get(opcao).autores().get(0), livros.get(opcao).descricao());
         System.out.println(livroSelecionado);
-        System.out.println("\nDeseja fazer uma nova busca?");
-        System.out.println("(1) Sim");
-        System.out.println("(2) Não");
-        return leitura.nextInt();
+        return livroSelecionado;
     }
+    private void acaoLivroSelecionado(Livro livro){
+        int opcaoLivro = -1;
+        while (opcaoLivro!=5){
+            System.out.println("\nDigite a opção que deseja\n" +
+                    "(1) Adicionar livro em uma estante\n" +
+                    "(2) Marcar como favorito\n" +
+                    "(3) Salvar livro\n" +
+                    "(4) Marcar como lido\n" +
+                    "(5) Voltar\n");
+            opcaoLivro = leitura.nextInt();
+            leitura.nextLine();
+
+            switch (opcaoLivro){
+                case 1:
+                    verEstantes();
+                    Estante estanteSelecionada;
+                    if(!estantes.isEmpty()){
+                        System.out.println("Digite o nome da estante");
+                        String nome = leitura.nextLine();
+                        estanteSelecionada = buscarEstante(nome);
+                        if(estanteSelecionada != null){
+                            estanteSelecionada.adicionarLivro(livro);
+                        }
+                    }
+                    else{
+                        System.out.println("Deseja criar uma nova ? \n" +
+                                "(1) Sim \n" +
+                                "(2) Não \n");
+                        var opcao = leitura.nextInt();
+                        leitura.nextLine();
+                        if(opcao == 1){
+                            System.out.println("Digite o nome da estante");
+                            String nome = leitura.nextLine();
+                            System.out.println("Digite uma descricao para a estante");
+                            String descricao = leitura.nextLine();
+                            criarEstante(nome, descricao);
+                        }
+                    }
+                    break;
+                case 2:
+                    if(livro.ehFavorito()){
+                        System.out.println("Livro desfavoritado");
+                    }
+                    else{
+                        livro.mudarFavorito();
+                        favoritos.adicionarLivro(livro);
+                        System.out.println("Livro favoritado com sucesso");
+                    }
+                    break;
+                case 3:
+                    if(livro.estaSalvo()){
+                        System.out.println("Livro removido da estante de livros salvos");
+                    }
+                    else{
+                        livro.mudarSalvo();
+                        livrosSalvos.adicionarLivro(livro);
+                        System.out.println("Livro salvo com sucesso");
+                    }
+                    break;
+                case 4:
+                    if(livro.estaLido()){
+                        System.out.println("Livro removido da estante de livros lidos");
+                    }
+                    else{
+                        livro.mudarSalvo();
+                        livrosLidos.adicionarLivro(livro);
+                        System.out.println("Livro marcado como lido");
+                    }
+                    break;
+                case 5:
+                    break;
+                default:
+                    System.out.println("Opção inválida");
+                    break;
+            }
+        }
+    }
+
 
     private void criarEstante(String nome, String descricao){
         Estante novaEstante = new Estante(nome, descricao);

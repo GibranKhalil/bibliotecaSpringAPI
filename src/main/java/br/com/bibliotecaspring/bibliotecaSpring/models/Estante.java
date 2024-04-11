@@ -35,11 +35,17 @@ public class Estante {
     public Estante(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
-        this.listaLivros = new ArrayList<>();
+        listaLivros = new ArrayList<>();
     }
 
     public void mostrarLivros(){
-        this.listaLivros.forEach(System.out::println);
+        if(listaLivros.isEmpty()){
+            System.out.println("Estante vazia");
+        }
+        else{
+            listaLivros.forEach(System.out::println);
+            System.out.println("\n");
+        }
     }
 
     @Override
