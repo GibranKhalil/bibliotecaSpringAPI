@@ -53,12 +53,30 @@ public class Principal {
                     criarEstante(nome, descricao);
                     break;
                 case 3:
-                    System.out.println("Digite o nome da estante");
-                    String nomeEstante = leitura.nextLine();
-                    Estante estanteBuscada = buscarEstante(nomeEstante);
-                    if(estanteBuscada != null){
-                        System.out.println(estanteBuscada);
-                        estanteBuscada.mostrarLivros();
+                    if(!estantes.isEmpty()){
+                        System.out.println("Digite o nome da estante");
+                        String nomeEstante = leitura.nextLine();
+                        Estante estanteBuscada = buscarEstante(nomeEstante);
+                        if(estanteBuscada != null){
+                            System.out.println(estanteBuscada);
+                            estanteBuscada.mostrarLivros();
+                        }
+                    }
+                    else{
+                        System.out.println(
+                                "Você não tem nenhuma estante\n" +
+                                "Deseja criar uma nova ? \n" +
+                                "(1) Sim \n" +
+                                "(2) Não \n");
+                        var opcaoEstante = leitura.nextInt();
+                        leitura.nextLine();
+                        if(opcaoEstante == 1){
+                            System.out.println("Digite o nome da estante");
+                            String nomeEstante = leitura.nextLine();
+                            System.out.println("Digite uma descricao para a estante");
+                            String descricaoEstante = leitura.nextLine();
+                            criarEstante(nomeEstante, descricaoEstante);
+                        }
                     }
                     break;
                 case 4:
@@ -85,7 +103,7 @@ public class Principal {
     }
 
     private String obterLivroUsuario() {
-        System.out.println("Digite o livro procurado");
+        System.out.println("Digite o nome do livro");
         return leitura.nextLine();
     }
 
@@ -192,6 +210,18 @@ public class Principal {
         }
     }
 
+//    private Estante selecionarEstante(List<Estante> estantes){
+//        System.out.println("Selecione uma estante para ver mais detalhes:");
+//        int opcao = leitura.nextInt();
+//        leitura.nextLine();
+//        if (opcao < 0 || opcao >= estantes.size()) {
+//            System.out.println("Opção inválida!");
+//            return null;
+//        }
+//        Livro estanteSelecionada = new Estante(estantes)
+//        System.out.println(livroSelecionado);
+//        return livroSelecionado;
+//    }
 
     private void criarEstante(String nome, String descricao){
         Estante novaEstante = new Estante(nome, descricao);

@@ -10,12 +10,12 @@ public class Estante {
 
     public void adicionarLivro(Livro livro) {
         listaLivros.add(livro);
-        System.out.println("Livro: " + livro.getTitulo() + " adicionado na lista");
+        System.out.println("Livro: " + livro.getTitulo() + " adicionado na estante" + getNome());
     }
 
     public void removerLivro(Livro livro) {
         listaLivros.remove(livro);
-        System.out.println("Livro: " + livro.getTitulo() + " removido da lista" );
+        System.out.println("Livro: " + livro.getTitulo() + " removido da estante" + getNome());
         System.out.println("Quantidade de livros na lista: " + listaLivros.size());
     }
 
