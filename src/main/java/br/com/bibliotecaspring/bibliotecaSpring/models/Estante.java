@@ -38,12 +38,14 @@ public class Estante {
         this.listaLivros = new ArrayList<>();
     }
 
+    public void mostrarLivros(){
+        this.listaLivros.forEach(System.out::println);
+    }
+
     @Override
     public String toString() {
         return "Estante{" +
                 "nome='" + nome + '\'' +
-                ", descricao='" + descricao + '\'' +
-                ", listaLivros=" + listaLivros +
-                '}';
+                ", descricao='" + descricao + '\'' +'}';
     }
 }
