@@ -22,6 +22,7 @@ public class Estante {
     public String getNome() {
         return nome;
     }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -42,7 +43,7 @@ public class Estante {
         listaLivros = new ArrayList<>();
     }
 
-    public void mostrarLivros(){ //mostra todos os livros da estante
+    public void mostrarLivros(){
         if(listaLivros.isEmpty()){
             System.out.println("Estante vazia");
         }
@@ -50,7 +51,7 @@ public class Estante {
             listaLivros.forEach(System.out::println); //uso do foreach ao invés do for para facilitar legibilidade
             System.out.println("\n");
         }
-    }
+    } //mostra todos os livros da estante
 
     @Override
     public String toString() {
