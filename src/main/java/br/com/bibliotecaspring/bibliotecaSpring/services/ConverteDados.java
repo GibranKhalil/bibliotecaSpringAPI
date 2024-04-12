@@ -7,6 +7,7 @@ public class ConverteDados implements IConverteDados {
 
     @Override
     public <T> T obterDados(String json, Class<T> classe) {
+        //converte os dados recebidos em json e tenta transformá-lo para a classe passada como parâmetro;
         try {
             return mapper.readValue(json, classe);
         } catch (JsonProcessingException e) {

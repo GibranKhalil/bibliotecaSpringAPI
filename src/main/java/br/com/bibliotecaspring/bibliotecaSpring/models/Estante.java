@@ -4,18 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Estante {
-    private String nome;
-    private String descricao;
-    private final List<Livro> listaLivros;
+    private String nome; //nome da estante
+    private String descricao; //descricao da estante
+    private final List<Livro> listaLivros; //Lista para armazenar os livros
 
-    public void adicionarLivro(Livro livro) {
+    public void adicionarLivro(Livro livro) { //função para adicionar um livro
         listaLivros.add(livro);
-        System.out.println("Livro: " + livro.getTitulo() + " adicionado na estante" + getNome());
+        System.out.println("Livro: " + livro.getTitulo() + " adicionado na estante " + getNome());
     }
 
-    public void removerLivro(Livro livro) {
+    public void removerLivro(Livro livro) { //remove um livro da lista
         listaLivros.remove(livro);
-        System.out.println("Livro: " + livro.getTitulo() + " removido da estante" + getNome());
+        System.out.println("Livro: " + livro.getTitulo() + " removido da estante " + getNome());
         System.out.println("Quantidade de livros na lista: " + listaLivros.size());
     }
 
@@ -32,18 +32,22 @@ public class Estante {
         this.descricao = descricao;
     }
 
+    public List<Livro> getListaLivros(){
+        return listaLivros;
+    }
+
     public Estante(String nome, String descricao) {
         this.nome = nome;
         this.descricao = descricao;
         listaLivros = new ArrayList<>();
     }
 
-    public void mostrarLivros(){
+    public void mostrarLivros(){ //mostra todos os livros da estante
         if(listaLivros.isEmpty()){
             System.out.println("Estante vazia");
         }
         else{
-            listaLivros.forEach(System.out::println);
+            listaLivros.forEach(System.out::println); //uso do foreach ao invés do for para facilitar legibilidade
             System.out.println("\n");
         }
     }

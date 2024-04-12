@@ -8,17 +8,17 @@ import java.net.http.HttpResponse;
 
 public class ConsumoAPI {
     public String obterDados(String endereco) {
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create(endereco))
+        HttpClient client = HttpClient.newHttpClient(); //Cria um client para enviar requisições
+        HttpRequest request = HttpRequest.newBuilder() //Lida com o pedido feito pelo usuário
+                .uri(URI.create(endereco)) // Configura para que o pedido seja redirecionado para o endereço passado
                 .build();
-        HttpResponse<String> response = null;
+        HttpResponse<String> response = null; // Traz a resposta recebida
         try {
             response = client
-                    .send(request, HttpResponse.BodyHandlers.ofString());
+                    .send(request, HttpResponse.BodyHandlers.ofString()); //envia a resposta para o cliente
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
-        return response.body();
+        return response.body(); // retorna em formato json normalmente
     }
 }
