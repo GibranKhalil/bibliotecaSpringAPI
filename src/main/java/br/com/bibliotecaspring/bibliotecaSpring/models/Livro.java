@@ -1,19 +1,32 @@
 package br.com.bibliotecaspring.bibliotecaSpring.models;
 
+import jakarta.persistence.*;
+
+@Entity
+@Table(name = "livros")
 public class Livro {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO )
+    private Integer id;
+
     private boolean estaLido;
     private boolean estaSalvo;
     private String titulo;
     private String autor;
     private String sobre;
-    private String genero;
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
     private boolean ehFavorito;
     private String urlCapa;
     private String resumo;
     private Number qtdCapitulo;
     private Number qtdPagina;
 
-    public Livro(String titulo, String autor, String sobre, String genero, String urlCapa, String resumo, Number qtdCapitulo, Number qtdPagina) {
+    @ManyToOne
+    private Estante estante;
+
+    public Livro(String titulo, String autor, String sobre, Genero genero, String urlCapa, String resumo, Number qtdCapitulo, Number qtdPagina) {
         this.titulo = titulo;
         this.autor = autor;
         this.sobre = sobre;
@@ -32,6 +45,11 @@ public class Livro {
         this.autor = autor;
         this.resumo = resumo;
     }
+
+    public Livro() {
+
+    }
+
 
     public void mudarLido() {
         this.estaLido = !this.estaLido;
@@ -60,7 +78,7 @@ public class Livro {
     public String getSobre() {
         return sobre;
     }
-    public String getGenero() {
+    public Genero getGenero() {
         return genero;
     }
     public boolean ehFavorito() {

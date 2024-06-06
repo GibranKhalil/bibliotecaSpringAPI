@@ -1,6 +1,7 @@
 package br.com.bibliotecaspring.bibliotecaSpring.principal;
 
 import br.com.bibliotecaspring.bibliotecaSpring.models.*;
+import br.com.bibliotecaspring.bibliotecaSpring.repository.LivroRepository;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConsumoAPI;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConverteDados;
 
@@ -19,6 +20,8 @@ public class Principal {
     private Estante favoritos = new Estante("Favoritos", "Estante de livros favoritos"); //Estante de favoritos
     private Estante livrosLidos =  new Estante("Livros marcados como lidos",  "Estante de livros lidos"); //Estante de livros marcados como já ldiso
     private Estante livrosSalvos = new Estante("Livros salvos", "Estante de livros salvos"); //Estante de livros msalvos
+
+    private LivroRepository repository = new LivroRepository();
 
     public void executar() { //função principal
         var opcao = 0;
