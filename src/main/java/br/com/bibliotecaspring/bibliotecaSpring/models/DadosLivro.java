@@ -9,7 +9,13 @@ import java.util.List;
 public record DadosLivro(@JsonAlias("title") String titulo,
                          @JsonAlias("description") String descricao,
                          @JsonAlias("authors") List<String> autores,
-                         @JsonAlias("language") String idioma) {
+                         @JsonAlias("language") String idioma,
+                         @JsonAlias("pageCount") Integer qtdPaginas,
+                         @JsonAlias("imageLinks") DadosImagem imagem,
+                         @JsonAlias("infoLink") String infoLink,
+                         @JsonAlias("previewLink") String previewLink,
+                         @JsonAlias("categories") List<String> genero
+                         ) {
     //Essa classe record, é utilizada para resgatar o os objetos contidos no volumeInfo gerado pela busca do livro na API
     // e resgatado pela classe record DadosItem
     //@JsonAlias é uma função da biblioteca Jackson DataBind do maven e serve para resgatar um item com o nome passado

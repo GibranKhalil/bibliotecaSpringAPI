@@ -14,26 +14,21 @@ public class Livro {
     private boolean estaSalvo;
     private String titulo;
     private String autor;
-    private String sobre;
-    @Enumerated(EnumType.STRING)
-    private Genero genero;
+    private String genero;
     private boolean ehFavorito;
     private String urlCapa;
     private String resumo;
-    private Number qtdCapitulo;
     private Number qtdPagina;
 
     @ManyToOne
     private Estante estante;
 
-    public Livro(String titulo, String autor, String sobre, Genero genero, String urlCapa, String resumo, Number qtdCapitulo, Number qtdPagina) {
+    public Livro(String titulo, String autor, String genero, String urlCapa, String resumo, Number qtdPagina) {
         this.titulo = titulo;
         this.autor = autor;
-        this.sobre = sobre;
         this.genero = genero;
         this.urlCapa = urlCapa;
         this.resumo = resumo;
-        this.qtdCapitulo = qtdCapitulo;
         this.qtdPagina = qtdPagina;
         this.estaSalvo = false;
         this.estaLido = false;
@@ -44,10 +39,6 @@ public class Livro {
         this.titulo = Titulo;
         this.autor = autor;
         this.resumo = resumo;
-    }
-
-    public Livro() {
-
     }
 
 
@@ -75,10 +66,7 @@ public class Livro {
     public String getAutor() {
         return autor;
     }
-    public String getSobre() {
-        return sobre;
-    }
-    public Genero getGenero() {
+    public String getGenero() {
         return genero;
     }
     public boolean ehFavorito() {
@@ -89,9 +77,6 @@ public class Livro {
     }
     public String getResumo() {
         return resumo;
-    }
-    public Number getQtdCapitulo() {
-        return qtdCapitulo;
     }
     public Number getQtdPagina() {
         return qtdPagina;

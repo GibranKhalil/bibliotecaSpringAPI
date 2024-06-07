@@ -32,7 +32,8 @@ public class Principal {
                     String livro = obterLivroUsuario(); // Pede o livro o nome do livro desejado pelo usuário
                     List<DadosLivro> livros = buscarLivros(livro); //Busca esse livro na API do google
                     exibirLivros(livros); //Exibe os 10 primeiros livros encontrados
-                    Livro livroSelecionado = selecionarLivro(livros); // Pede para o usuário selecionar um livro
+                    Livro livroSelecionado = selecionarLivro(livros);
+                    repository.saveAndFlush(livroSelecionado);// Pede para o usuário selecionar um livro
                     acaoLivroSelecionado(livroSelecionado); // Pede para o usuário escolher o que deseja fazer com o livro
                     break;
                 case 2:
@@ -119,7 +120,11 @@ public class Principal {
         String url = ENDERECO + livro.replace(" ", "+") + "&key=" + API_KEY;
         String json = consumo.obterDados(url);
         DadosBusca dadosBusca = conversor.obterDados(json, DadosBusca.class);
-        return dadosBusca.items().stream().map(DadosItem::volumeInfo).collect(Collectors.toList());
+        return dadosBusca.items()
+                .stream()
+                .map(DadosItem::volumeInfo)
+                .filter(l -> l.genero() != null)
+                .collect(Collectors.toList());
     }
 
     private void exibirLivros(List<DadosLivro> livros) { //Exibi os livros recebidos de uma lista
@@ -136,7 +141,8 @@ public class Principal {
             System.out.println("Opção inválida!");
             return null;
         }
-        Livro livroSelecionado = new Livro(livros.get(opcao).titulo(), livros.get(opcao).autores().get(0), livros.get(opcao).descricao());
+        var listaLivros = livros.get(opcao);
+        Livro livroSelecionado = new Livro(listaLivros.titulo(), listaLivros.autores().get(0), listaLivros.genero().get(0), listaLivros.imagem().smallThumbnail(),listaLivros.descricao(), listaLivros.qtdPaginas());
         System.out.println(livroSelecionado);
         return livroSelecionado;
     }
