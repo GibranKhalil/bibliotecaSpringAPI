@@ -1,15 +1,12 @@
 package br.com.bibliotecaspring.bibliotecaSpring.controllers;
 
-import br.com.bibliotecaspring.bibliotecaSpring.DTO.LivroDTO;
 import br.com.bibliotecaspring.bibliotecaSpring.models.DadosBusca;
 import br.com.bibliotecaspring.bibliotecaSpring.models.DadosItem;
 import br.com.bibliotecaspring.bibliotecaSpring.models.DadosLivro;
-import br.com.bibliotecaspring.bibliotecaSpring.models.Livro;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConsumoAPI;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConverteDados;
 import br.com.bibliotecaspring.bibliotecaSpring.services.LivroService;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 

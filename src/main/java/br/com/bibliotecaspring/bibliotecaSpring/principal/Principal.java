@@ -1,7 +1,8 @@
 package br.com.bibliotecaspring.bibliotecaSpring.principal;
 
+import br.com.bibliotecaspring.bibliotecaSpring.AppConfig;
 import br.com.bibliotecaspring.bibliotecaSpring.models.*;
-import br.com.bibliotecaspring.bibliotecaSpring.repository.LivroRepository;
+import br.com.bibliotecaspring.bibliotecaSpring.repository.EstanteRepository;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConsumoAPI;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConverteDados;
 
@@ -20,8 +21,8 @@ public class Principal {
     private Estante favoritos = new Estante("Favoritos", "Estante de livros favoritos"); //Estante de favoritos
     private Estante livrosLidos =  new Estante("Livros marcados como lidos",  "Estante de livros lidos"); //Estante de livros marcados como já ldiso
     private Estante livrosSalvos = new Estante("Livros salvos", "Estante de livros salvos"); //Estante de livros msalvos
-
-    private LivroRepository repository = new LivroRepository();
+    private AppConfig config = new AppConfig();
+    private EstanteRepository repository = new EstanteRepository(config.jdbcTemplate());
 
     public void executar() { //função principal
         var opcao = 0;
@@ -33,7 +34,6 @@ public class Principal {
                     List<DadosLivro> livros = buscarLivros(livro); //Busca esse livro na API do google
                     exibirLivros(livros); //Exibe os 10 primeiros livros encontrados
                     Livro livroSelecionado = selecionarLivro(livros);
-                    repository.saveAndFlush(livroSelecionado);// Pede para o usuário selecionar um livro
                     acaoLivroSelecionado(livroSelecionado); // Pede para o usuário escolher o que deseja fazer com o livro
                     break;
                 case 2:
@@ -212,6 +212,7 @@ public class Principal {
         if(!nome.isEmpty() && !descricao.isEmpty()){
             Estante novaEstante = new Estante(nome, descricao);
             estantes.add(novaEstante);
+            repository.save(novaEstante);
             System.out.println("Estate " + novaEstante.getNome() + " criada com sucesso");
         }
         else{
@@ -245,20 +246,14 @@ public class Principal {
         }
     }
     private Estante buscarEstante(String nomeEstante ){
-        for (Estante estante : estantes) {
-            if (estante.getNome().equals(nomeEstante)) {
-                return estante;
-            }
-            return null;
-        }
-        return null;
+        return repository.findByName(nomeEstante);
     };
 
     private void verEstantes() {
         if (estantes.isEmpty()) {
             System.out.println("\nVocê não tem estantes\n");
         } else {
-            estantes.forEach(System.out::println);
+            System.out.println(repository.findAll());
         }
     }
 

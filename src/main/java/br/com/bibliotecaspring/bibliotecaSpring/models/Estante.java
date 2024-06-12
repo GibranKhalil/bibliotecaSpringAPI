@@ -1,20 +1,13 @@
 package br.com.bibliotecaspring.bibliotecaSpring.models;
 
-import jakarta.persistence.*;
-
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
-@Table(name = "estantes")
-public class Estante {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+public class Estante {
     private String nome; //nome da estante
     private String descricao; //descricao da estante
-    @OneToMany(mappedBy = "estante", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+
     private final List<Livro> listaLivros; //Lista para armazenar os livros
 
     public Estante(List<Livro> listaLivros) {
@@ -44,14 +37,6 @@ public class Estante {
     }
     public void setDescricao(String descricao) {
         this.descricao = descricao;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public List<Livro> getListaLivros(){

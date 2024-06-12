@@ -1,13 +1,7 @@
 package br.com.bibliotecaspring.bibliotecaSpring.models;
 
-import jakarta.persistence.*;
-
-@Entity
-@Table(name = "livros")
 public class Livro {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO )
     private Integer id;
 
     private boolean estaLido;
@@ -20,7 +14,6 @@ public class Livro {
     private String resumo;
     private Number qtdPagina;
 
-    @ManyToOne
     private Estante estante;
 
     public Livro(String titulo, String autor, String genero, String urlCapa, String resumo, Number qtdPagina) {
