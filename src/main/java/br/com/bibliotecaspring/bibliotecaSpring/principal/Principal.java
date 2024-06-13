@@ -3,6 +3,7 @@ package br.com.bibliotecaspring.bibliotecaSpring.principal;
 import br.com.bibliotecaspring.bibliotecaSpring.AppConfig;
 import br.com.bibliotecaspring.bibliotecaSpring.models.*;
 import br.com.bibliotecaspring.bibliotecaSpring.repository.EstanteRepository;
+import br.com.bibliotecaspring.bibliotecaSpring.repository.LivroRepository;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConsumoAPI;
 import br.com.bibliotecaspring.bibliotecaSpring.services.ConverteDados;
 
@@ -19,16 +20,18 @@ public class Principal {
     private final String API_KEY = "AIzaSyAVfXqFmSp0yuY4hbRvqI9S3c8VHv1p71M"; //Chave de acesso da API;
     private List<Estante> estantes = new ArrayList<>(); //Lista com todas as estantes agrupadas, exceto as que se seguem abaixo dela:
     private Estante favoritos = new Estante("Favoritos", "Estante de livros favoritos"); //Estante de favoritos
-    private Estante livrosLidos =  new Estante("Livros marcados como lidos",  "Estante de livros lidos"); //Estante de livros marcados como já ldiso
+    private Estante livrosLidos = new Estante("Livros marcados como lidos", "Estante de livros lidos"); //Estante de livros marcados como já ldiso
     private Estante livrosSalvos = new Estante("Livros salvos", "Estante de livros salvos"); //Estante de livros msalvos
     private AppConfig config = new AppConfig();
     private EstanteRepository repository = new EstanteRepository(config.jdbcTemplate());
 
+    private LivroRepository livroRepository = new LivroRepository(config.jdbcTemplate());
+
     public void executar() { //função principal
         var opcao = 0;
-        while (opcao!=8){
+        while (opcao != 8) {
             opcao = exibirMenuPrincipal(); //exibe as opções do menu de ações disponíveis para o usuário
-            switch (opcao){
+            switch (opcao) {
                 case 1:
                     String livro = obterLivroUsuario(); // Pede o livro o nome do livro desejado pelo usuário
                     List<DadosLivro> livros = buscarLivros(livro); //Busca esse livro na API do google
@@ -40,24 +43,23 @@ public class Principal {
                     criarEstante(); //Cria uma estante nova
                     break;
                 case 3:
-                    if(!estantes.isEmpty()){ //Verifica se o usuário possui alguma estante criada
+                    if (!estantes.isEmpty()) { //Verifica se o usuário possui alguma estante criada
                         System.out.println("Digite o nome da estante");
                         String nomeEstante = leitura.nextLine();
                         Estante estanteBuscada = buscarEstante(nomeEstante); //Busca a estante que o usuário digitou
-                        if(estanteBuscada != null){ // Caso encontre a estante retorna a impressão dessa estante e os livros que ela contem
+                        if (estanteBuscada != null) { // Caso encontre a estante retorna a impressão dessa estante e os livros que ela contem
                             System.out.println(estanteBuscada);
                             estanteBuscada.mostrarLivros();
                         }
-                    }
-                    else{ // Caso esteja vazia a lista de estantes, dá a opção de criar uma nova
+                    } else { // Caso esteja vazia a lista de estantes, dá a opção de criar uma nova
                         System.out.println(
                                 "Você não tem nenhuma estante\n" +
-                                "Deseja criar uma nova ? \n" +
-                                "(1) Sim \n" +
-                                "(2) Não \n");
+                                        "Deseja criar uma nova ? \n" +
+                                        "(1) Sim \n" +
+                                        "(2) Não \n");
                         var opcaoEstante = leitura.nextInt();
                         leitura.nextLine();
-                        if(opcaoEstante == 1){
+                        if (opcaoEstante == 1) {
                             criarEstante();
                         }
                     }
@@ -89,14 +91,15 @@ public class Principal {
         System.out.println("Digite o nome do livro");
         return leitura.nextLine();
     }
-    private int exibirMenuPrincipal(){ //Exibição das opções do menu principal,isto é, o primeiro menu que aparece
+
+    private int exibirMenuPrincipal() { //Exibição das opções do menu principal,isto é, o primeiro menu que aparece
         System.out.println("\nDigite a opção que deseja\n" +
                 "(1) Buscar um livro\n" +
                 "(2) Criar uma estante\n" +
                 "(3) Buscar uma estante\n" +
                 "(4) Ver todas as estantes\n" +
                 "(5) Ver livros favoritos\n" +
-                "(6) Ver livros já lidos\n"+
+                "(6) Ver livros já lidos\n" +
                 "(7) Ver livros salvos\n" +
                 "(8) Sair\n");
         var opcao = leitura.nextInt();
@@ -104,13 +107,11 @@ public class Principal {
         return opcao;
     }
 
-    private int exibirMenuLivro(){ //Exibição das opções do menu quando o usuário busca um livro
+    private int exibirMenuLivro() { //Exibição das opções do menu quando o usuário busca um livro
         System.out.println("\nDigite a opção que deseja\n" +
                 "(1) Adicionar livro em uma estante\n" +
                 "(2) Marcar como favorito\n" +
-                "(3) Salvar livro\n" +
-                "(4) Marcar como lido\n" +
-                "(5) Voltar\n");
+                "(3) Voltar\n");
         var opcaoLivro = leitura.nextInt();
         leitura.nextLine();
         return opcaoLivro;
@@ -142,8 +143,9 @@ public class Principal {
             return null;
         }
         var listaLivros = livros.get(opcao);
-        Livro livroSelecionado = new Livro(listaLivros.titulo(), listaLivros.autores().get(0), listaLivros.genero().get(0), listaLivros.imagem().smallThumbnail(),listaLivros.descricao(), listaLivros.qtdPaginas());
+        Livro livroSelecionado = new Livro(0,listaLivros.titulo(), listaLivros.autores().get(0), listaLivros.genero().get(0), listaLivros.imagem().smallThumbnail(), listaLivros.descricao(), listaLivros.qtdPaginas());
         System.out.println(livroSelecionado);
+        livroRepository.save(livroSelecionado);
         return livroSelecionado;
     }
 
@@ -159,29 +161,29 @@ public class Principal {
         System.out.println(estanteSelecionada);
         return estanteSelecionada;
     }
-    private void acaoLivroSelecionado(Livro livro){ // função para executar as ações presentes no menu que aparece quando o usuário buscar um livro
+
+    private void acaoLivroSelecionado(Livro livro) { // função para executar as ações presentes no menu que aparece quando o usuário buscar um livro
         int opcaoLivro = -1;
-        while (opcaoLivro!=5){
+        while (opcaoLivro != 5) {
             opcaoLivro = exibirMenuLivro(); //Exibição do menu de ações para o livro selecionado
-           switch (opcaoLivro){
+            switch (opcaoLivro) {
                 case 1:
                     verEstantes();
                     Estante estanteSelecionada;
-                    if(!estantes.isEmpty()){
+                    if (!estantes.isEmpty()) {
                         System.out.println("Digite o nome da estante");
                         String nome = leitura.nextLine();
                         estanteSelecionada = buscarEstante(nome);
-                        if(estanteSelecionada != null){
+                        if (estanteSelecionada != null) {
                             estanteSelecionada.adicionarLivro(livro);
                         }
-                    }
-                    else{
+                    } else {
                         System.out.println("Deseja criar uma nova ? \n" +
                                 "(1) Sim \n" +
                                 "(2) Não \n");
                         var opcao = leitura.nextInt();
                         leitura.nextLine();
-                        if(opcao == 1){
+                        if (opcao == 1) {
                             criarEstante();
                         }
                     }
@@ -190,12 +192,7 @@ public class Principal {
                     mudarFavoritoLivro(livro);
                     break;
                 case 3:
-                   mudarSalvoLivro(livro);
-                   break;
-                case 4:
-                    mudarLidoLivro(livro);
-                    break;
-                case 5:
+                    exibirMenuLivro();
                     break;
                 default:
                     System.out.println("Opção inválida");
@@ -204,50 +201,39 @@ public class Principal {
         }
     }
 
-    private void criarEstante(){
+    private void criarEstante() {
         System.out.println("Digite o nome da estante");
         String nome = leitura.nextLine();
         System.out.println("Digite uma descricao para a estante");
         String descricao = leitura.nextLine();
-        if(!nome.isEmpty() && !descricao.isEmpty()){
+        if (!nome.isEmpty() && !descricao.isEmpty()) {
             Estante novaEstante = new Estante(nome, descricao);
             estantes.add(novaEstante);
             repository.save(novaEstante);
             System.out.println("Estate " + novaEstante.getNome() + " criada com sucesso");
-        }
-        else{
+        } else {
             System.out.println("Todos os campos devem ser preenchidos");
         }
     }
 
-    private void mudarFavoritoLivro(Livro livro){
-        if(livro.ehFavorito()){
+    private void mudarFavoritoLivro(Livro livro) {
+        if (livro.ehFavorito()) {
             livro.mudarFavorito();
             favoritos.removerLivro(livro);
             System.out.println("Livro desfavoritado");
-        }
-        else{
+        } else {
             livro.mudarFavorito();
             favoritos.adicionarLivro(livro);
             System.out.println("Livro favoritado com sucesso");
         }
     }
 
-    private void mudarSalvoLivro(Livro livro){
-        if(livro.estaSalvo()){
-            livro.mudarSalvo();
-            livrosSalvos.removerLivro(livro);
-            System.out.println("Livro removido da estante de livros salvos");
-        }
-        else {
-            livro.mudarSalvo();
-            livrosSalvos.adicionarLivro(livro);
-            System.out.println("Livro salvo com sucesso");
-        }
-    }
-    private Estante buscarEstante(String nomeEstante ){
+
+    private Estante buscarEstante(String nomeEstante) {
         return repository.findByName(nomeEstante);
-    };
+    }
+
+    ;
 
     private void verEstantes() {
         if (estantes.isEmpty()) {
@@ -256,16 +242,5 @@ public class Principal {
             System.out.println(repository.findAll());
         }
     }
+}
 
-    private void mudarLidoLivro(Livro livro) {
-        if (livro.estaLido()) {
-            livro.mudarLido();
-            livrosLidos.removerLivro(livro);
-            System.out.println("Livro removido da estante de livros lidos");
-        } else {
-            livro.mudarSalvo();
-            livrosLidos.adicionarLivro(livro);
-            System.out.println("Livro marcado como lido");
-        }
-    }
-    }

@@ -2,29 +2,27 @@ package br.com.bibliotecaspring.bibliotecaSpring.models;
 
 public class Livro {
 
-    private Integer id;
-
-    private boolean estaLido;
-    private boolean estaSalvo;
+    private int ID;
     private String titulo;
     private String autor;
     private String genero;
     private boolean ehFavorito;
     private String urlCapa;
     private String resumo;
-    private Number qtdPagina;
+    private int qtdPagina;
 
-    private Estante estante;
+    public Livro(){
 
-    public Livro(String titulo, String autor, String genero, String urlCapa, String resumo, Number qtdPagina) {
+    }
+
+    public Livro(int ID, String titulo, String autor, String genero, String urlCapa, String resumo, int qtdPagina) {
         this.titulo = titulo;
+        this.ID = ID;
         this.autor = autor;
         this.genero = genero;
         this.urlCapa = urlCapa;
         this.resumo = resumo;
         this.qtdPagina = qtdPagina;
-        this.estaSalvo = false;
-        this.estaLido = false;
         this.ehFavorito = false;
     }
 
@@ -34,25 +32,10 @@ public class Livro {
         this.resumo = resumo;
     }
 
-
-    public void mudarLido() {
-        this.estaLido = !this.estaLido;
-    }
-
-    public void mudarSalvo() {
-        this.estaSalvo = !this.estaSalvo;
-    }
-
     public void mudarFavorito() {
         this.ehFavorito = !this.ehFavorito;
     }
 
-    public boolean estaLido() {
-        return estaLido;
-    }
-    public boolean estaSalvo() {
-        return estaSalvo;
-    }
     public String getTitulo() {
         return titulo;
     }
@@ -65,14 +48,25 @@ public class Livro {
     public boolean ehFavorito() {
         return ehFavorito;
     }
-    public String getCapa() {
-        return urlCapa;
-    }
     public String getResumo() {
         return resumo;
     }
     public Number getQtdPagina() {
         return qtdPagina;
+    }
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+    public String getUrlCapa() {
+        return urlCapa;
+    }
+
+    public void setUrlCapa(String urlCapa) {
+        this.urlCapa = urlCapa;
     }
 
     @Override

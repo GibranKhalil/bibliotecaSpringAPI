@@ -27,4 +27,9 @@ public class EstanteRepository {
         return jdbcTemplate.update("INSERT INTO estantes (nome, descricao) VALUES (?, ?)",
                 estante.getNome(), estante.getDescricao());
     }
+
+    public int delete(int idEstante){
+        return jdbcTemplate.update("DELETE FROM estantes WHERE ID = ?",
+                idEstante);
+    }
 }

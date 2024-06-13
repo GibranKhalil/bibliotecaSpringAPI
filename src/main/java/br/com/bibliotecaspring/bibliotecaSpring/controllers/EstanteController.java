@@ -1,13 +1,29 @@
 package br.com.bibliotecaspring.bibliotecaSpring.controllers;
 
+import br.com.bibliotecaspring.bibliotecaSpring.models.Estante;
 import br.com.bibliotecaspring.bibliotecaSpring.services.EstanteService;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
 public class EstanteController {
 
-    private EstanteService service;
+    private EstanteService service = new EstanteService();
+
+    @GetMapping("/bookcase")
+    public List<Estante> getAll(){
+        return service.getAll();
+    }
+
+    @PostMapping("/bookcase")
+    public int postEstante(@RequestBody Estante estante){
+        return service.postEstante(estante);
+    }
+
+    @DeleteMapping("/bookcase/{ID}")
+    public int deleteEstante(@PathVariable int ID){
+        return service.deleteEstante(ID);
+    }
 
 }
