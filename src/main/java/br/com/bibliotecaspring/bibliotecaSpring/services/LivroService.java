@@ -17,6 +17,10 @@ public class LivroService {
         return repository.findAll();
     }
 
+    public int addBookToBookCase(int bookID, int bookCaseID){
+        return  repository.addToBookCase(bookID, bookCaseID);
+    }
+
     public int postBook(Livro livro){
         return repository.save(livro);
     }

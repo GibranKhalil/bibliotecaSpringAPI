@@ -2,6 +2,7 @@ package br.com.bibliotecaspring.bibliotecaSpring.services;
 
 import br.com.bibliotecaspring.bibliotecaSpring.AppConfig;
 import br.com.bibliotecaspring.bibliotecaSpring.models.Estante;
+import br.com.bibliotecaspring.bibliotecaSpring.models.Livro;
 import br.com.bibliotecaspring.bibliotecaSpring.repository.EstanteRepository;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,10 @@ public class EstanteService {
 
     public List<Estante> getAll(){
         return repository.findAll();
+    }
+
+    public List<Livro> getBooks(int id){
+        return repository.getBooks(id);
     }
 
     public int postEstante(Estante estante){

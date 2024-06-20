@@ -17,6 +17,12 @@ public class LivroRepository {
         return jdbcTemplate.query("SELECT * FROM livros", new LivroMapper());
     }
 
+    public int addToBookCase(int livroId, int estanteId){
+        return jdbcTemplate.update("UPDATE livros SET estante_id = ? WHERE id = ?",
+                estanteId, livroId);
+    }
+
+
     public int save(Livro livro){
         return jdbcTemplate.update("INSERT INTO livros(titulo, autor, genero, urlCapa, resumo, qtdPagina) VALUES (?, ?, ?, ?, ?, ?)",
                 livro.getTitulo(), livro.getAutor(), livro.getGenero(), livro.getUrlCapa(), livro.getResumo(), livro.getQtdPagina());

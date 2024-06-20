@@ -32,6 +32,9 @@ public class Livro {
         this.resumo = resumo;
     }
 
+    public Livro(long id, String titulo, String autor, String genero, int ehFavorito, String urlCapa, String resumo, int qtdPagina, int estanteId) {
+    }
+
     public void mudarFavorito() {
         this.ehFavorito = !this.ehFavorito;
     }

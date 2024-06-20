@@ -9,6 +9,6 @@ import java.sql.SQLException;
 public class EstanteMapper implements RowMapper<Estante> {
     @Override
     public Estante mapRow(ResultSet rs, int rowNum) throws SQLException {
-        return new Estante(rs.getString("nome"), rs.getString("descricao"));
+        return new Estante(rs.getString("nome"), rs.getString("descricao"), rs.getInt("ID"));
     }
 }

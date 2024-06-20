@@ -1,7 +1,9 @@
 package br.com.bibliotecaspring.bibliotecaSpring.repository;
 
 import br.com.bibliotecaspring.bibliotecaSpring.mappers.EstanteMapper;
+import br.com.bibliotecaspring.bibliotecaSpring.mappers.LivroMapper;
 import br.com.bibliotecaspring.bibliotecaSpring.models.Estante;
+import br.com.bibliotecaspring.bibliotecaSpring.models.Livro;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -17,6 +19,11 @@ public class EstanteRepository {
 
     public List<Estante> findAll(){
         return jdbcTemplate.query("SELECT * FROM estantes", new EstanteMapper());
+    }
+
+    public List<Livro> getBooks(int id){
+        return jdbcTemplate.query("SELECT * FROM livros WHERE estante_id = ? ",
+                new Object[]{id}, new LivroMapper());
     }
 
     public Estante findByName(String nome) {

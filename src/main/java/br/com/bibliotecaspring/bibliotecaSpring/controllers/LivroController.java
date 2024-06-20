@@ -37,4 +37,9 @@ public class LivroController {
     public int postBook(@RequestBody Livro livro){
         return service.postBook(livro);
     }
+
+    @PatchMapping("/addtobookcase")
+    public int addBookToBookCase(@RequestParam(value = "bookid") int bookId, @RequestParam(value = "bookcaseid") int bookCaseId){
+        return service.addBookToBookCase(bookId, bookCaseId);
+    }
 }
